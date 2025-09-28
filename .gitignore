@@ -26,3 +26,53 @@ dist-ssr
 .env
 .env.*.local
 .env.local
+
+# -----------------------
+# iOS / Xcode
+# -----------------------
+
+# Xcode build products
+ios/build/
+build/
+*.app
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+# Xcode user and workspace settings (user-specific)
+*.xcuserdata/
+*.xcuserdatad/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# Xcode Derived Data (usually outside repo, but just in case)
+DerivedData/
+*/DerivedData/
+
+# CocoaPods
+ios/Pods/
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/test_output/
+
+# Signing keys / provisioning profiles
+*.mobileprovision
+*.p12
+*.cer
+
+# Misc
+*.hmap
+*.xcdebugger
+*.moved-aside
+*.xcworkspace/contents.xcuserdatad

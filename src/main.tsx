@@ -1,15 +1,19 @@
 import { QueryClientProvider } from '@tanstack/react-query'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 import App from './App.tsx'
-import { STORAGE_KEY_THEME } from './constants/common.ts'
+import { ProtectedRoute, PublicRoute } from './components/auth/auth-guard.tsx'
+import { ThemeProvider } from './components/theme-provider.tsx'
+import { PATHNAME, STORAGE_KEY_THEME } from './constants/common.ts'
 import './index.css'
 import { queryClient } from './lib/query-client.ts'
+import { LoginPage } from './pages/login.tsx'
 import NotFoundPage from './pages/not-fround.tsx'
-import { ThemeProvider } from './components/theme-provider.tsx'
-import Homepage from './pages/homepage.tsx'
+import { PostDetailPage } from './pages/post-detail.tsx'
+import { PostsPage } from './pages/posts.tsx'
+import { SignupPage } from './pages/signup.tsx'
 
 const router = createBrowserRouter([
   {
@@ -20,15 +24,52 @@ const router = createBrowserRouter([
       </ThemeProvider>
     ),
     children: [
-      // auth route
+      // Public routes
       {
-        path: '/',
-        element: <Homepage />,
+        path: PATHNAME.HOME,
+        element: <Navigate to={PATHNAME.POSTS} replace />,
       },
-      // protected route
       {
-        path: '*',
-        element: <NotFoundPage />,
+        path: PATHNAME.LOGIN,
+        element: (
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: PATHNAME.SIGNUP,
+        element: (
+          <PublicRoute>
+            <SignupPage />
+          </PublicRoute>
+        ),
+      },
+      // Protected routes
+      {
+        path: PATHNAME.POSTS,
+        element: (
+          <ProtectedRoute>
+            <PostsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: PATHNAME.POST_DETAIL,
+        element: (
+          <ProtectedRoute>
+            <PostDetailPage />
+          </ProtectedRoute>
+        ),
+      },
+      // Catch all route
+      {
+        path: PATHNAME.NOT_FOUND,
+        element: (
+          <PublicRoute>
+            <NotFoundPage />
+          </PublicRoute>
+        ),
       },
     ],
   },
